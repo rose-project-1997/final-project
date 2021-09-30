@@ -53,8 +53,19 @@ results_df.join(drivers_df, results_df.driver_id == drivers_df.driver_id).select
 
 # COMMAND ----------
 
+from pyspark.sql.functions import col
+
+# COMMAND ----------
+
 results_df.join(drivers_df, results_df.driver_id == drivers_df.driver_id).join(constructors_df, results_df.constructor_id == constructors_df.constructor_id).select(drivers_df.name.alias("Driver"), constructors_df.name.alias("Constructor"), results_df.fastestLapTime).orderBy(results_df.fastestLapTime).filter(results_df.fastestLapTime.isNotNull()).display()
 
 # COMMAND ----------
 
-races_df.describe()
+results_df.join(drivers_df, results_df.driver_id == drivers_df.driver_id) \
+.join(constructors_df, results_df.constructor_id == constructors_df.constructor_id) \
+.join(races_df, results_df.race_id == races_df.race_id) \
+.select(drivers_df.name.alias("Driver"), constructors_df.name.alias("Constructor"), results_df.fastestLapTime) \
+.orderBy(results_df.fastestLapTime) \
+.filter(results_df.fastestLapTime.isNotNull()) \
+.filter(col("date") > "2011-01-01") \
+.display()
