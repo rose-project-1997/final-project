@@ -81,8 +81,8 @@ circuits_final_df = circuits_renamed_df.withColumn("ingestion_date", current_tim
 
 # COMMAND ----------
 
-circuits_final_df.write.mode("overwrite").parquet("/mnt/formula1dl/processed/circuits")
+circuits_final_df.write.mode("overwrite").parquet("/mnt/storageaccount20210929/f1-data-processed/circuits")
 
 # COMMAND ----------
 
-display(spark.read.parquet("/mnt/formula1dl/processed/circuits"))
+display(spark.read.parquet("/mnt/storageaccount20210929/f1-data-processed/circuits"))

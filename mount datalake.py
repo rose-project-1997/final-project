@@ -38,8 +38,8 @@ def mount_adls(container_name):
 
 # COMMAND ----------
 
-mount_adls("processed")
+mount_adls("f1-data-processed")
 
 # COMMAND ----------
 
-dbutils.fs.ls("/mnt/formula1dl/processed")
+dbutils.fs.ls("/mnt/storageaccount20210929/f1-data-processed")
