@@ -44,6 +44,13 @@ results_df = spark.read \
 
 # COMMAND ----------
 
+lap_times_df = spark.read \
+.option("header", True) \
+.option("inferSchema", True) \
+.parquet(f"/mnt/{storage_account_name}/{container_name}/lap_times")
+
+# COMMAND ----------
+
 # MAGIC %md
 # MAGIC #####Try some joins etc
 
@@ -53,7 +60,7 @@ results_df.join(drivers_df, results_df.driver_id == drivers_df.driver_id).select
 
 # COMMAND ----------
 
-from pyspark.sql.functions import col
+from pyspark.sql.functions import col, mean
 
 # COMMAND ----------
 
@@ -61,11 +68,26 @@ results_df.join(drivers_df, results_df.driver_id == drivers_df.driver_id).join(c
 
 # COMMAND ----------
 
-results_df.join(drivers_df, results_df.driver_id == drivers_df.driver_id) \
+results_recent_df = results_df.join(drivers_df, results_df.driver_id == drivers_df.driver_id) \
 .join(constructors_df, results_df.constructor_id == constructors_df.constructor_id) \
 .join(races_df, results_df.race_id == races_df.race_id) \
-.select(drivers_df.name.alias("Driver"), constructors_df.name.alias("Constructor"), results_df.fastestLapTime) \
+.select(races_df.race_id, drivers_df.driver_id, drivers_df.name.alias("Driver"), constructors_df.constructor_id, constructors_df.name.alias("Constructor"), results_df.fastestLapTime) \
 .orderBy(results_df.fastestLapTime) \
-.filter(results_df.fastestLapTime.isNotNull()) \
 .filter(col("date") > "2011-01-01") \
-.display()
+
+#.filter(results_df.fastestLapTime.isNotNull()) \
+
+results_recent_df.display()
+
+
+# COMMAND ----------
+
+lap_times_df.display()
+
+# COMMAND ----------
+
+lap_times_average_df = lap_times_df.select(col("race_id"), col("driver_id"), mean("time")).groupBy("race_id","driver_id")
+
+# COMMAND ----------
+
+results_recent_df.join(lap_times_df, )
