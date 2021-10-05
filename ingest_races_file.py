@@ -29,11 +29,15 @@ races_df.display()
 
 # COMMAND ----------
 
-from pyspark.sql.functions import col
+from pyspark.sql.functions import col, to_date
 
 # COMMAND ----------
 
-races_selected_df = races_df.select(col("raceId"), col("round"), col("circuitId"), col("date"))
+races_selected_df = races_df.select(col("raceId"), col("round"), col("circuitId"), to_date(races_df.date, 'yyyy-MM-dd').alias("date"))
+
+# COMMAND ----------
+
+races_selected_df.display()
 
 # COMMAND ----------
 

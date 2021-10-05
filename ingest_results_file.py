@@ -57,6 +57,54 @@ results_renamed_df.display()
 
 # COMMAND ----------
 
+# MAGIC %md
+# MAGIC #####Step 3.5 - Fix datatypes and nulls
+
+# COMMAND ----------
+
+results_renamed_df.select("*").filter(col("fastestLapSpeed")=="\\N").show()
+
+# COMMAND ----------
+
+results_nulled_df = results_renamed_df.replace("\\N", None)
+
+# COMMAND ----------
+
+results_nulled_df.display()
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC #####Step 3.7 - Convert strings to numbers
+
+# COMMAND ----------
+
+results_nulled_df.select(results_nulled_df.fastestLapSpeed.cast("double")).show()
+
+# COMMAND ----------
+
+from pyspark.sql.functions import split
+
+# COMMAND ----------
+
+split_col = split(results_nulled_df['fastestLapTime'], ':')
+results_nulled_df = results_nulled_df.withColumn('minutes', split_col.getItem(0).astype("float"))
+results_nulled_df = results_nulled_df.withColumn('seconds', split_col.getItem(1).astype("float"))
+
+# COMMAND ----------
+
+results_nulled_df.select(col("minutes")*60).show()
+
+# COMMAND ----------
+
+results_type_df = results_nulled_df.select(col("result_id"), col("race_id"), col("constructor_id"), col("driver_id"), results_nulled_df.fastestLapSpeed.cast("double"), (col("minutes")*60 + col("seconds")).alias("fastestLapTime"), col("grid"), col("points"), col("position"), col("positionOrder"),col("rank"))
+
+# COMMAND ----------
+
+results_type_df.display()
+
+# COMMAND ----------
+
 # MAGIC %md 
 # MAGIC ##### Step 4 - Add ingestion date to the dataframe
 
@@ -66,7 +114,7 @@ from pyspark.sql.functions import current_timestamp
 
 # COMMAND ----------
 
-results_final_df = results_renamed_df.withColumn("ingestion_date", current_timestamp()) 
+results_final_df = results_type_df.withColumn("ingestion_date", current_timestamp()) 
 
 # COMMAND ----------
 
