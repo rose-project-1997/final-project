@@ -1,0 +1,27 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "rose-final-project-df"
+		},
+		"AzureDataLakeStorage_accountKey": {
+			"value": ""
+		},
+		"AzureDatabricks1_accessToken": {
+			"value": ""
+		},
+		"AzureDatabricksDeltaLake1_accessToken": {
+			"value": ""
+		},
+		"AzureDataLakeStorage_properties_typeProperties_url": {
+			"value": "https://storageaccount20210929.dfs.core.windows.net"
+		},
+		"new csv data_properties_typeProperties_scope": {
+			"value": "/subscriptions/dba5060c-7da8-427c-934b-716435c0ed18/resourceGroups/final-project-rg/providers/Microsoft.Storage/storageAccounts/storageaccount20210929"
+		},
+		"new json data_properties_typeProperties_scope": {
+			"value": "/subscriptions/dba5060c-7da8-427c-934b-716435c0ed18/resourceGroups/final-project-rg/providers/Microsoft.Storage/storageAccounts/storageaccount20210929"
+		}
+	}
+}
