@@ -1,0 +1,25 @@
+{
+	"name": "new csv data",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Started",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "csv_pipeline",
+					"type": "PipelineReference"
+				}
+			}
+		],
+		"type": "BlobEventsTrigger",
+		"typeProperties": {
+			"blobPathBeginsWith": "/f1-data/blobs/raw",
+			"blobPathEndsWith": ".csv",
+			"ignoreEmptyBlobs": true,
+			"scope": "/subscriptions/dba5060c-7da8-427c-934b-716435c0ed18/resourceGroups/final-project-rg/providers/Microsoft.Storage/storageAccounts/storageaccount20210929",
+			"events": [
+				"Microsoft.Storage.BlobCreated"
+			]
+		}
+	}
+}
