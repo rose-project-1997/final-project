@@ -1,0 +1,9 @@
+{
+	"name": "rose-final-project-df",
+	"location": "uksouth",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "c9c29e7e-18d8-4d62-bd73-e0a1972ef018",
+		"tenantId": "b09fc1e7-af5e-4bb6-8226-79c4c3df0391"
+	}
+}
